@@ -39,17 +39,15 @@ function getid3_requirements($phase) {
 }
 
 /**
- * Implements hook_enable().
- */
-function getid3_enable() {
-  // Display a message if it fails to load getID3().
-  getid3_load();
-}
-
-/**
  * Implements hook_install().
  */
 function getid3_install() {
+  // Display a message if it fails to load getID3().
+  $status = getid3_load();
+  if($status == FALSE){
+    $path = getid3_get_path();
+    drupal_set_message(t('The getID3 files <em>getid3.php</em> and <em>write.php</em> could not be found in the %path directory.', array('%path' => $path)),'error');
+  }
   // Set module weight for the getID3 module.
   module_set_weight('getid3', '-10');
 }

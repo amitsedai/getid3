@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\getid3\Form\GetID3ConfigForm.
+ * Contains \Drupal\getid3\Form\GetId3ConfigForm.
  */
 
 namespace Drupal\getid3\Form;
@@ -11,7 +11,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Utility\String;
 
-class GetId3ConfigForm  extends  ConfigFormBase {
+class GetId3ConfigForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
@@ -29,7 +29,6 @@ class GetId3ConfigForm  extends  ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Path'),
       '#default_value' => $path,
-      '#disabled' => TRUE,
       '#description' => $this->t('The location where getID3() is installed. Relative paths are from the Drupal root directory.'),
     );
 
@@ -77,9 +76,9 @@ class GetId3ConfigForm  extends  ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
-
     // Save the new value.
     $this->config('getid3.settings')
+      ->set('path', $form_state->getValue('getid3_path'))
       ->set('getid3_show_warnings', $form_state->getValue('getid3_show_warnings'))
       ->save();
   }
@@ -98,12 +97,10 @@ class GetId3ConfigForm  extends  ConfigFormBase {
    * @return array
    */
   public static function afterBuild(array $form_element, FormStateInterface $form_state) {
-
-    $path = $form_element['#default_value'];
+    $path =  $form_state->getValue('getid3_path');
     if (!is_dir($path) || !(file_exists($path . '/getid3.php') && file_exists($path . '/write.php'))) {
-      $form_state->setErrorByName('getid3_path', t('The getID3 files <em>getid3.php</em> and <em>write.php</em> could not be found in the %path directory.', array('%path' => $path)));
+      drupal_set_message(t('The getID3 files <em>getid3.php</em> and <em>write.php</em> could not be found in the %path directory.', array('%path' => $path)),'error');
     }
     return $form_element;
   }
-
 }

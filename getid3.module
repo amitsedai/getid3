@@ -2,6 +2,8 @@
 
 use Drupal\Core\Url;
 
+define('GETID3_RECOMMENDED_VERSION', '1.9.9');
+
 /**
  * Implements hook_help().
  */
@@ -10,7 +12,7 @@ function getid3_help($route_name) {
     case 'help.page.getid3':
     //case 'admin/help#getid3':
       return  '<p>' . t("To use this module you'll need to <a href='!download-link'>download the library</a> from the <a href='!info-link'>getID3 website</a> and extract the contents into the  module's getid3 directory. Currently, the recommended version of the getID3 library is %recommended-version.",
-        array('!download-link' => Url::fromUri('http://prdownloads.sourceforge.net/getid3'), '!info-link' => Url::fromUri('http://getid3.org/'), '%recommended-version' => \Drupal::config('getid3.settings')->get('GETID3_RECOMMEND_VERSION'))) . '</p>';
+        array('!download-link' => Url::fromUri('http://prdownloads.sourceforge.net/getid3'), '!info-link' => Url::fromUri('http://getid3.org/'), '%recommended-version' => GETID3_RECOMMENDED_VERSION )) . '</p>';
   }
 }
 
@@ -81,12 +83,11 @@ function getid3_analyze($filepath) {
  * Returns the path where getID3() is installed.
  */
 function getid3_get_path() {
-  $config = Drupal::Config('getid3.settings') ;
-  $path = $config->get('getid3_path');
-
+  $config = \Drupal::config('getid3.settings');
+  $path = $config->get('path');
   if(empty($path) || strlen($path) < 1){
     $path = 'sites/all/libraries/getid3/getid3';
-    $config->set('getid3_path', $path)->save();
+    $config->set('path', $path)->save();
   }
 
   return $path;

@@ -1,2 +1,1 @@
-GETID3_RECOMMEND_VERSION: 1.8.2
-getid3_path: 'sites/all/libraries/getid3/getid3'
+path: 'sites/all/libraries/getid3/getid3'

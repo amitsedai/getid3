@@ -42,10 +42,10 @@ function drush_getid3_download() {
     $library_path = drush_get_context('DRUSH_DRUPAL_ROOT') . '/sites/all/libraries/getid3';
   }
 
-  // TODO: It would be great if we could use GETID3_RECOMMEND_VERSION.
-  $version = '1.8.2';
-  $filename = 'getid3-1.8.2-20101206.zip';
-  $md5 = "ddec632c8127f553faacafddd2e9df50";
+  // TODO: It would be great if we could use recommended_version.
+  $version = GETID3_RECOMMENDED_VERSION;
+  $filename = 'getID3-1.9.9-20141218.zip';
+  $md5 = 'fc9a902d9ee09b281c4b35926bf00f0b';
   $url = "http://downloads.sourceforge.net/project/getid3/getID3%28%29%201.x/{$version}/{$filename}";
 
   // Create the directory.
